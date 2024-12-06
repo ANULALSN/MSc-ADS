@@ -17,31 +17,58 @@ void heapifyDown(MaxHeap *heap, int index);
 void freeHeap(MaxHeap *heap);
 
 int main() {
-    MaxHeap *heap = createHeap(10); // Create a heap with a capacity of 10
+    int capacity;
+    printf("Enter the capacity of the heap: ");
+    scanf("%d", &capacity);
 
-    // Insert elements
-    insert(heap, 10);
-    insert(heap, 20);
-    insert(heap, 5);
-    insert(heap, 30);
+    MaxHeap *heap = createHeap(capacity); // Create a heap with user-defined capacity
+    int choice, key;
 
-    printf("Max Heap:\n");
-    for (int i = 0; i < heap->size; i++) {
-        printf("%d ", heap->array[i]);
+    while (1) {
+        printf("\nOptions:\n");
+        printf("1. Insert\n");
+        printf("2. Delete Max\n");
+        printf("3. Peek Max\n");
+        printf("4. Print Heap\n");
+        printf("5. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                printf("Enter the value to insert: ");
+                scanf("%d", &key);
+                insert(heap, key);
+                break;
+            case 2:
+                key = deleteMax(heap);
+                if (key != -1) {
+                    printf("Deleted Max: %d\n", key);
+                }
+                break;
+            case 3:
+                key = peek(heap);
+                if (key != -1) {
+                    printf("Max Element: %d\n", key);
+                } else {
+                    printf("Heap is empty!\n");
+                }
+                break;
+            case 4:
+                printf("Heap Elements: ");
+                for (int i = 0; i < heap->size; i++) {
+                    printf("%d ", heap->array[i]);
+                }
+                printf("\n");
+                break;
+            case 5:
+                freeHeap(heap);
+                printf("Exiting program.\n");
+                return 0;
+            default:
+                printf("Invalid choice! Please try again.\n");
+        }
     }
-    printf("\n");
-
-    printf("Peek: %d\n", peek(heap));            // Peek: 30
-    printf("Deleted root: %d\n", deleteMax(heap)); // Delete root: 30
-
-    printf("Max Heap after deletion:\n");
-    for (int i = 0; i < heap->size; i++) {
-        printf("%d ", heap->array[i]);
-    }
-    printf("\n");
-
-    freeHeap(heap); // Clean up
-    return 0;
 }
 
 // Create a max-heap
@@ -124,4 +151,3 @@ void freeHeap(MaxHeap *heap) {
     free(heap->array);
     free(heap);
 }
-
